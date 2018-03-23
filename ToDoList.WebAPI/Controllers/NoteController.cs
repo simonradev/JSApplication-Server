@@ -91,7 +91,7 @@
         ///     "content": "some content"
         /// }
         /// </summary>
-        /// <returns>Information if the creation was successful or not.</returns>
+        /// <returns>Successful: The wanted resource / Unsuccessful: 404 Not Found or 400 Bad Request</returns>
         [HttpPost]
         public IActionResult Create([FromBody] NoteCreationDto noteCreationDto)
         {
@@ -109,7 +109,7 @@
         ///     "content": "some content"
         /// }
         /// </summary>
-        /// <returns>Information if the update was successful or not.</returns>
+        /// <returns>Successful: Edits the resource and returns it / Unsuccessful: 404 Not Found or 400 Bad Request</returns>
         [HttpPut]
         public IActionResult Edit([FromBody] Note note)
         {
@@ -122,7 +122,7 @@
         /// <summary>
         /// URL: /api/note/{id:int}
         /// </summary>
-        /// <returns>Successful: count of deleted rows / Unsuccessful: 404 Not Found</returns>
+        /// <returns>Successful: count of deleted rows / Unsuccessful: 404 Not Found or 400 Bad Request</returns>
         [HttpDelete("{id?}")]
         public IActionResult Delete(int? id)
         {
