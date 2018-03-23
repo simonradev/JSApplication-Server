@@ -32,9 +32,9 @@
         /// <param name="repoAction">The action to perform on the repository.</param>
         /// <param name="successResult">The result to return from the action if it was successful.</param>
         /// <returns>Successful: The specified result action / Not successful: 400 Bad Request</returns>
-        private IActionResult SafelyUpdateNotes(Note note, 
-                                                Action<INotesRepository, Note> repoAction,
-                                                Func<Note, IActionResult> successResult)
+        private IActionResult SafelyUpdateNotes<T>(T note, 
+                                                   Action<INotesRepository, T> repoAction,
+                                                   Func<T, IActionResult> successResult)
         {
             if (!this.ModelState.IsValid)
             {
@@ -88,16 +88,15 @@
         /// URL: /api/note
         /// Body:
         /// {
-        ///     "id": 1,
         ///     "content": "some content"
         /// }
         /// </summary>
         /// <returns>Information if the creation was successful or not.</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] Note note)
+        public IActionResult Create([FromBody] NoteCreationDto noteCreationDto)
         {
-            IActionResult creationResult = this.SafelyUpdateNotes(note, 
-                                                                  (r, n) => r.Add(n.Id.Value, n),
+            IActionResult creationResult = this.SafelyUpdateNotes(noteCreationDto, 
+                                                                  (r, n) => r.Add(new Note(n.Content)),
                                                                   (n) => CreatedAtAction(nameof(Create), n));
             return creationResult;
         }
@@ -115,7 +114,7 @@
         public IActionResult Edit([FromBody] Note note)
         {
             IActionResult editResult = this.SafelyUpdateNotes(note,
-                                                              (r, n) => r.Edit(n.Id.Value, n),
+                                                              (r, n) => r.Edit(n.Id, n),
                                                               (n) => Ok(n));
             return editResult;
         }

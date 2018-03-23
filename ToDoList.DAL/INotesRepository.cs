@@ -6,7 +6,7 @@
 
     public interface INotesRepository
     {
-        void Add(int id, Note noteToAdd);
+        void Add(Note noteToAdd);
 
         void Edit(int id, Note noteToEdit);
 

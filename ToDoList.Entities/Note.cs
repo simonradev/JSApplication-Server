@@ -4,14 +4,22 @@
     
     public class Note
     {
-        public Note(int? id, string content)
+        public Note()
         {
-            this.Id = id;
+        }
+
+        public Note(string content)
+        {
             this.Content = content;
         }
 
-        [Required]
-        public int? Id { get; set; }
+        public Note(int id, string content)
+            : this(content)
+        {
+            this.Id = id;
+        }
+        
+        public int Id { get; set; }
 
         [Required]
         [MinLength(3), MaxLength(150)]

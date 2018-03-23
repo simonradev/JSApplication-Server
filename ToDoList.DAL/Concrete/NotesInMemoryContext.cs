@@ -9,6 +9,8 @@
 
     public class NotesInMemoryContext : INotesRepository
     {
+        private static int CurrentId = 1;
+
         private readonly IDictionary<int, Note> notesContext;
 
         public NotesInMemoryContext()
@@ -36,15 +38,12 @@
             }
         }
 
-        public void Add(int id, Note noteToAdd)
+        public void Add(Note noteToAdd)
         {
-            if (this.notesContext.ContainsKey(id))
-            {
-                string exceptionMessage = string.Format(ExceptionMessage.IdOfNoteAlreadyExists, noteToAdd.Id);
-                throw new InvalidOperationException(exceptionMessage);
-            }
+            noteToAdd.Id = CurrentId;
+            this.notesContext[CurrentId] = noteToAdd;
 
-            this.notesContext[id] = noteToAdd;
+            CurrentId++;
         }
 
         public void Edit(int id, Note noteToEdit)

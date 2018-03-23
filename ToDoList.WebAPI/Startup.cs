@@ -15,7 +15,7 @@
         {
             services.AddMvc();
 
-            services.AddTransient<INotesRepository, NotesInMemoryContext>();
+            services.AddSingleton<INotesRepository, NotesInMemoryContext>();
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
