@@ -32,7 +32,7 @@
         /// <param name="repoAction">The action to perform on the repository.</param>
         /// <param name="successResult">The result to return from the action if it was successful.</param>
         /// <returns>Successful: The specified result action / Not successful: 400 Bad Request</returns>
-        private IActionResult SafelyUpdateNotes<T>(T note, 
+        private IActionResult SafelyUpdateNotes<T>(T note,
                                                    Action<INotesRepository, T> repoAction,
                                                    Func<T, IActionResult> successResult)
         {
@@ -95,9 +95,14 @@
         [HttpPost]
         public IActionResult Create([FromBody] NoteCreationDto noteCreationDto)
         {
-            IActionResult creationResult = this.SafelyUpdateNotes(noteCreationDto, 
-                                                                  (r, n) => r.Add(new Note(n.Content)),
-                                                                  (n) => CreatedAtAction(nameof(Create), n));
+            Note createdNote = null;
+            IActionResult creationResult = this.SafelyUpdateNotes(noteCreationDto,
+                                                                  (r, n) =>
+                                                                  {
+                                                                      createdNote = new Note(n.Content);
+                                                                      r.Add(createdNote);
+                                                                  },
+                                                                  (n) => CreatedAtAction(nameof(Create), createdNote));
             return creationResult;
         }
 
