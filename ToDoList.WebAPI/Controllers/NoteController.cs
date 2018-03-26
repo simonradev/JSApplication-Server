@@ -150,5 +150,27 @@
                 return NotFound(deletionError);
             }
         }
+
+        /// <summary>
+        /// URL: /api/note
+        /// Body:
+        /// {
+        ///     "Ids": [1, 2, 3]
+        /// }
+        /// </summary>
+        /// <returns>Successful: count of deleted rows / Unsuccessful: 404 Not Found or 400 Bad Request</returns>
+        [HttpDelete]
+        public IActionResult Delete([FromBody] NoteDeletionDto noteDeletionDto)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return BadRequest(this.ModelState);
+            }
+
+            int countOfDeletedRows = this.notesRepository.DeleteMany(noteDeletionDto.Ids);
+
+            DeletionInfo deletionInfo = new DeletionInfo(countOfDeletedRows);
+            return Ok(deletionInfo);
+        }
     }
 }

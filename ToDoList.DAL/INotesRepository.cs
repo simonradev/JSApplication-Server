@@ -12,6 +12,8 @@
 
         bool Delete(int id);
 
+        int DeleteMany(int[] allIds);
+
         IEnumerable<Note> GetAll();
 
         Note GetById(int id);

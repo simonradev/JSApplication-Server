@@ -59,6 +59,22 @@
             return deletionIsSuccessful;
         }
 
+        public int DeleteMany(int[] allIds)
+        {
+            int countOfDeletedRows = 0;
+            foreach (int id in allIds)
+            {
+                bool isDeleted = this.Delete(id);
+
+                if (isDeleted)
+                {
+                    countOfDeletedRows++;
+                }
+            }
+
+            return countOfDeletedRows;
+        }
+
         public IEnumerable<Note> GetAll()
         {
             IEnumerable<Note> selectedNotes = this.notesContext.Select(kvp => kvp.Value);
