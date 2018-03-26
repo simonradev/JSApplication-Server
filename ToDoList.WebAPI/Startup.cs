@@ -13,17 +13,22 @@
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddMvc();
 
             services.AddSingleton<INotesRepository, NotesInMemoryContext>();
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(
+                options => options.WithOrigins("http://localhost:3000/").AllowAnyMethod()
+            );
 
             app.UseMvc();
 
