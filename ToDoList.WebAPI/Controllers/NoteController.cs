@@ -68,7 +68,7 @@
         /// URL: /api/note/{id:int}
         /// </summary>
         /// <returns>Successful: The wanted note / Unsuccessful: 404 Not Found</returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
             Note wantedNote = null;
