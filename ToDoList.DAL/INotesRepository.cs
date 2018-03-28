@@ -1,5 +1,6 @@
 ﻿namespace ToDoList.DAL
 {
+    using System;
     using System.Collections.Generic;
 
     using ToDoList.Entities;
@@ -14,7 +15,7 @@
 
         int DeleteMany(int[] allIds);
 
-        IEnumerable<Note> GetAll();
+        IEnumerable<Note> GetAll<TKey>(Func<Note, TKey> orderFunc);
 
         Note GetById(int id);
     }

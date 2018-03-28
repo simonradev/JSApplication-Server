@@ -75,9 +75,11 @@
             return countOfDeletedRows;
         }
 
-        public IEnumerable<Note> GetAll()
+        public IEnumerable<Note> GetAll<TKey>(Func<Note, TKey> orderFunc)
         {
-            IEnumerable<Note> selectedNotes = this.notesContext.Select(kvp => kvp.Value);
+            IEnumerable<Note> selectedNotes = this.notesContext
+                                                  .Select(kvp => kvp.Value)
+                                                  .OrderBy(orderFunc);
             return selectedNotes;
         }
 

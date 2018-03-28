@@ -60,7 +60,7 @@
         [HttpGet]
         public IActionResult Get()
         {
-            IEnumerable<Note> allNotes = this.notesRepository.GetAll();
+            IEnumerable<Note> allNotes = this.notesRepository.GetAll(n => n.Id);
             return Ok(allNotes);
         }
 

@@ -1,8 +1,10 @@
 ﻿namespace ToDoList.WebAPI
 {
+    using System.IO;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     using ToDoList.DAL;
@@ -19,16 +21,19 @@
             services.AddSingleton<INotesRepository, NotesInMemoryContext>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+                              IHostingEnvironment env, 
+                              IConfiguration configuration)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            string allowedOrigin = configuration[ConfigurationKey.AllowedOrigin];
             app.UseCors(
                 options => options
-                            .WithOrigins("http://localhost:3000")
+                            .WithOrigins(allowedOrigin)
                             .AllowAnyHeader()
                             .AllowAnyMethod()
             );
